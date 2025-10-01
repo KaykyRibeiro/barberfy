@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -16,7 +15,7 @@ model Barbershop {
   phone      String       @db.VarChar(15)
   logo       String?      @db.VarChar(255)
   address    String       @db.VarChar(200)
-  intagram   String?       @db.VarChar(100)
+  instagram   String?       @db.VarChar(100)
   facebook   String?      @db.VarChar(100)
   password   String       @db.VarChar(255)
   

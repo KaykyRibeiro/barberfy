@@ -1,0 +1,81 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BarbershopsController = void 0;
+const common_1 = require("@nestjs/common");
+const barbershops_service_1 = require("./barbershops.service");
+const create_barbershop_dto_1 = require("./dto/create-barbershop.dto");
+const update_barbershop_dto_1 = require("./dto/update-barbershop.dto");
+let BarbershopsController = class BarbershopsController {
+    barbershopsService;
+    constructor(barbershopsService) {
+        this.barbershopsService = barbershopsService;
+    }
+    create(createBarbershopDto) {
+        return this.barbershopsService.create(createBarbershopDto);
+    }
+    findAll() {
+        return this.barbershopsService.findAll();
+    }
+    findOne(id) {
+        return this.barbershopsService.findOne(+id);
+    }
+    update(id, updateBarbershopDto) {
+        return this.barbershopsService.update(+id, updateBarbershopDto);
+    }
+    remove(id) {
+        return this.barbershopsService.remove(+id);
+    }
+};
+exports.BarbershopsController = BarbershopsController;
+__decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_barbershop_dto_1.CreateBarbershopDto]),
+    __metadata("design:returntype", void 0)
+], BarbershopsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], BarbershopsController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], BarbershopsController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, update_barbershop_dto_1.UpdateBarbershopDto]),
+    __metadata("design:returntype", void 0)
+], BarbershopsController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], BarbershopsController.prototype, "remove", null);
+exports.BarbershopsController = BarbershopsController = __decorate([
+    (0, common_1.Controller)('barbershops'),
+    __metadata("design:paramtypes", [barbershops_service_1.BarbershopsService])
+], BarbershopsController);
+//# sourceMappingURL=barbershops.controller.js.map
