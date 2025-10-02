@@ -1,1 +1,1 @@
-{"version":3,"file":"create-barber.dto.js","sourceRoot":"","sources":["../../../../src/barbers/dto/create-barber.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,eAAe;CAAG;AAA/B,0CAA+B"}
+{"version":3,"file":"create-barber.dto.js","sourceRoot":"","sources":["../../../../src/barbers/dto/create-barber.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,eAAe;IACxB,IAAI,CAAS;IACb,KAAK,CAAS;IACd,QAAQ,CAAS;IACjB,OAAO,CAAU;IACjB,YAAY,CAAS;CACxB;AAND,0CAMC"}

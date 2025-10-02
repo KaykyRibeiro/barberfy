@@ -1,26 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateBarbershopDto } from './dto/create-barbershop.dto';
 import { UpdateBarbershopDto } from './dto/update-barbershop.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import brcypt from 'bcrypt';
 
 @Injectable()
 export class BarbershopsService {
-  create(createBarbershopDto: CreateBarbershopDto) {
-    return 'This action adds a new barbershop';
+
+  constructor(private prismaService: PrismaService) {}
+  async create(createBarbershopDto: CreateBarbershopDto) {
+    const barbershopAlreadyExists = await this.prismaService.barbershop.findUnique({
+      where: { email: createBarbershopDto.email },
+    });
+    
+    if (barbershopAlreadyExists) {
+      throw new UnauthorizedException('Barbershop already exists');
+    }
+
+    return this.prismaService.barbershop.create({
+      data: {
+        ...createBarbershopDto,
+        password: brcypt.hashSync(createBarbershopDto.password, 10),
+      }
+    });
   }
 
   findAll() {
-    return `This action returns all barbershops`;
+    return this.prismaService.barbershop.findMany();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} barbershop`;
+    return this.prismaService.barbershop.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateBarbershopDto: UpdateBarbershopDto) {
-    return `This action updates a #${id} barbershop`;
+    return this.prismaService.barbershop.update({
+      where: { id },
+      data: updateBarbershopDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} barbershop`;
+    return this.prismaService.barbershop.update({
+      where: { id },
+      data: { 
+        name: `deleted${id}`,
+        email: `deleted${Date.now()}@${id}deleted.com`,
+        phone: `00${id}00`,
+        address: `deleted${Date.now()}`,
+        password: brcypt.hashSync(Math.random().toString(36).slice(-8), 10),
+        instagram: null,
+        facebook: null,
+        logo: null,
+       },
+    });
   }
 }

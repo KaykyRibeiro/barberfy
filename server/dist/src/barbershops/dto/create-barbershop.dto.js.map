@@ -1,1 +1,1 @@
-{"version":3,"file":"create-barbershop.dto.js","sourceRoot":"","sources":["../../../../src/barbershops/dto/create-barbershop.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,mBAAmB;CAAG;AAAnC,kDAAmC"}
+{"version":3,"file":"create-barbershop.dto.js","sourceRoot":"","sources":["../../../../src/barbershops/dto/create-barbershop.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,mBAAmB;IAC5B,IAAI,CAAS;IACb,KAAK,CAAS;IACd,KAAK,CAAS;IACd,IAAI,CAAU;IACd,OAAO,CAAS;IAChB,SAAS,CAAU;IACnB,QAAQ,CAAU;IAClB,QAAQ,CAAS;CACpB;AATD,kDASC"}
