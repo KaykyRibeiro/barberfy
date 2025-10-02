@@ -1,0 +1,13 @@
+POST  http://localhost:3000/barbershops
+Content-Type: application/json
+
+{
+  "name": "Barber Shop",
+  "email": "teste@gmail.com",
+  "phone": "11999999999",
+  "logo": "http://logo.com/logo.png",
+  "address": "Rua teste, 123",
+  "instagram": "http://instagram.com/barbershop",
+  "facebook": "http://facebook.com/barbershop",
+  "password": "123456",
+}

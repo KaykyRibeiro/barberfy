@@ -12,7 +12,7 @@ export class BarbershopsService {
     const barbershopAlreadyExists = await this.prismaService.barbershop.findUnique({
       where: { email: createBarbershopDto.email },
     });
-    
+
     if (barbershopAlreadyExists) {
       throw new UnauthorizedException('Barbershop already exists');
     }
