@@ -4,9 +4,42 @@ import { UpdateBarberDto } from './dto/update-barber.dto';
 export declare class BarbersController {
     private readonly barbersService;
     constructor(barbersService: BarbersService);
-    create(createBarberDto: CreateBarberDto): string;
-    findAll(): string;
-    findOne(id: string): string;
-    update(id: string, updateBarberDto: UpdateBarberDto): string;
-    remove(id: string): string;
+    create(createBarberDto: CreateBarberDto): Promise<{
+        id: number;
+        name: string;
+        phone: string;
+        password: string;
+        profile: string | null;
+        barbershopId: number;
+    }>;
+    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
+        id: number;
+        name: string;
+        phone: string;
+        password: string;
+        profile: string | null;
+        barbershopId: number;
+    }[]>;
+    findOne(id: string): import("@prisma/client").Prisma.Prisma__BarberClient<{
+        id: number;
+        name: string;
+        phone: string;
+        password: string;
+        profile: string | null;
+        barbershopId: number;
+    } | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    update(id: string, updateBarberDto: UpdateBarberDto): Promise<{
+        id: number;
+        name: string;
+        phone: string;
+        profile: string | null;
+    }>;
+    remove(id: string): Promise<{
+        id: number;
+        name: string;
+        phone: string;
+        password: string;
+        profile: string | null;
+        barbershopId: number;
+    }>;
 }

@@ -9,21 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginBarbershopDto = void 0;
+exports.loginBarberDto = void 0;
 const class_validator_1 = require("class-validator");
-class loginBarbershopDto {
-    email;
+class loginBarberDto {
+    phone;
     password;
 }
-exports.loginBarbershopDto = loginBarbershopDto;
-__decorate([
-    (0, class_validator_1.IsEmail)(),
-    (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], loginBarbershopDto.prototype, "email", void 0);
+exports.loginBarberDto = loginBarberDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], loginBarbershopDto.prototype, "password", void 0);
-//# sourceMappingURL=login-barbershop.dto.js.map
+], loginBarberDto.prototype, "phone", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], loginBarberDto.prototype, "password", void 0);
+//# sourceMappingURL=login-barber.dto.js.map

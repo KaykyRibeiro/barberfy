@@ -6,7 +6,7 @@ class CreateBarberDto {
     phone;
     password;
     profile;
-    barberShopId;
+    barbershopId;
 }
 exports.CreateBarberDto = CreateBarberDto;
 //# sourceMappingURL=create-barber.dto.js.map

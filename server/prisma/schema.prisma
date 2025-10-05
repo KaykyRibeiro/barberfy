@@ -33,7 +33,7 @@ model Barber {
   id           Int          @id @default(autoincrement())
   name         String       @db.VarChar(50)
   phone        String       @unique @db.VarChar(15)
-  password     String       @db.VarChar(255)
+  password     String       @db.Text
   profile      String?      @db.VarChar(255)
 
   barbershopId Int

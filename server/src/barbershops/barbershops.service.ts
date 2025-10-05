@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateBarbershopDto } from './dto/create-barbershop.dto';
 import { UpdateBarbershopDto } from './dto/update-barbershop.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import brcypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class BarbershopsService {
@@ -20,7 +20,7 @@ export class BarbershopsService {
     return this.prismaService.barbershop.create({
       data: {
         ...createBarbershopDto,
-        password: brcypt.hashSync(createBarbershopDto.password, 10),
+        password: bcrypt.hashSync(createBarbershopDto.password, 10),
       }
     });
   }
@@ -50,7 +50,7 @@ export class BarbershopsService {
         email: `deleted${Date.now()}@${id}deleted.com`,
         phone: `00${id}00`,
         address: `deleted${Date.now()}`,
-        password: brcypt.hashSync(Math.random().toString(36).slice(-8), 10),
+        password: bcrypt.hashSync(Math.random().toString(36).slice(-8), 10),
         instagram: null,
         facebook: null,
         logo: null,

@@ -38,6 +38,20 @@ let AuthService = class AuthService {
         const token = this.jwtService.sign({ name: barbershop.name, email: barbershop.email, id: barbershop.id });
         return { access_token: token };
     }
+    async loginBarber(loginBarberDto) {
+        const barber = await this.prismaService.barber.findUnique({
+            where: { phone: loginBarberDto.phone }
+        });
+        if (!barber) {
+            throw new Error('Invalid credentials');
+        }
+        const isPasswordValid = bcrypt_1.default.compareSync(loginBarberDto.password, barber.password);
+        if (!isPasswordValid) {
+            throw new Error('Invalid credentials');
+        }
+        const token = this.jwtService.sign({ name: barber.name, phone: barber.phone, id: barber.id });
+        return { access_token: token };
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

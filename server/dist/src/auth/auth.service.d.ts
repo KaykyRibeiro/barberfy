@@ -1,4 +1,5 @@
 import { loginBarbershopDto } from './dto/login-barbershop.dto';
+import { loginBarberDto } from './dto/login-barber.dto';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 export declare class AuthService {
@@ -6,6 +7,9 @@ export declare class AuthService {
     private prismaService;
     constructor(jwtService: JwtService, prismaService: PrismaService);
     loginBarbershop(loginBarbershopDto: loginBarbershopDto): Promise<{
+        access_token: string;
+    }>;
+    loginBarber(loginBarberDto: loginBarberDto): Promise<{
         access_token: string;
     }>;
 }

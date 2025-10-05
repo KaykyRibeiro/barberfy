@@ -3,5 +3,5 @@ export declare class CreateBarberDto {
     phone: string;
     password: string;
     profile?: string;
-    barberShopId: number;
+    barbershopId: number;
 }

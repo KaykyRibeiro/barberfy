@@ -8,29 +8,93 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BarbersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 let BarbersService = class BarbersService {
     prismaService;
     constructor(prismaService) {
         this.prismaService = prismaService;
     }
-    create(createBarberDto) {
-        return 'This action adds a new barber';
+    async create(createBarberDto) {
+        const barberAlreadyExists = await this.prismaService.barber.findUnique({
+            where: { phone: createBarberDto.phone },
+        });
+        if (barberAlreadyExists) {
+            throw new Error('Barber already exists');
+        }
+        return this.prismaService.barber.create({
+            data: {
+                name: createBarberDto.name,
+                phone: createBarberDto.phone,
+                password: bcrypt_1.default.hashSync(createBarberDto.password, 10),
+                profile: createBarberDto.profile,
+                barbershop: {
+                    connect: { id: Number(createBarberDto.barbershopId) },
+                },
+            }
+        });
     }
     findAll() {
-        return `This action returns all barbers`;
+        return this.prismaService.barber.findMany();
     }
     findOne(id) {
-        return `This action returns a #${id} barber`;
+        return this.prismaService.barber.findUnique({
+            where: { id },
+        });
     }
-    update(id, updateBarberDto) {
-        return `This action updates a #${id} barber`;
+    async update(id, updateBarberDto) {
+        try {
+            const barberExist = await this.prismaService.barber.findUnique({
+                where: { id },
+            });
+            if (!barberExist) {
+                throw new Error('Barber does not exist');
+            }
+            const updateData = {};
+            if (updateBarberDto.name)
+                updateData.name = updateBarberDto.name;
+            if (updateBarberDto.phone)
+                updateData.phone = updateBarberDto.phone;
+            if (updateBarberDto.profile)
+                updateData.profile = updateBarberDto.profile;
+            if (updateBarberDto.password) {
+                updateData.password = bcrypt_1.default.hashSync(updateBarberDto.password, 10);
+            }
+            const updatedBarber = await this.prismaService.barber.update({
+                where: { id },
+                data: updateData,
+                select: {
+                    id: true,
+                    name: true,
+                    phone: true,
+                    profile: true,
+                },
+            });
+            return updatedBarber;
+        }
+        catch (error) {
+            console.error('❌ Erro ao atualizar barbeiro:', error);
+            throw error;
+        }
     }
-    remove(id) {
-        return `This action removes a #${id} barber`;
+    async remove(id) {
+        const barber = await this.prismaService.barber.findUnique({ where: { id } });
+        console.log('Barber encontrado:', barber);
+        return this.prismaService.barber.update({
+            where: { id },
+            data: {
+                name: `deleted${id}`,
+                phone: `deleted_${id}`,
+                password: 'deleted',
+                profile: null,
+            },
+        });
     }
 };
 exports.BarbersService = BarbersService;
