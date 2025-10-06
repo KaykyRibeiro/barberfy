@@ -17,6 +17,7 @@ exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [jwt_1.JwtModule.register({
+                global: true,
                 secret: 'secret',
                 signOptions: { expiresIn: '7d', algorithm: 'HS256' },
             })],

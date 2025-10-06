@@ -12,70 +12,70 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CustomersController = void 0;
+exports.ClientController = void 0;
 const common_1 = require("@nestjs/common");
-const customers_service_1 = require("./customers.service");
-const create_customer_dto_1 = require("./dto/create-customer.dto");
-const update_customer_dto_1 = require("./dto/update-customer.dto");
-let CustomersController = class CustomersController {
-    customersService;
-    constructor(customersService) {
-        this.customersService = customersService;
+const client_service_1 = require("./client.service");
+const create_client_dto_1 = require("./dto/create-client.dto");
+const update_client_dto_1 = require("./dto/update-client.dto");
+let ClientController = class ClientController {
+    clientService;
+    constructor(clientService) {
+        this.clientService = clientService;
     }
-    create(createCustomerDto) {
-        return this.customersService.create(createCustomerDto);
+    create(createClientDto) {
+        return this.clientService.create(createClientDto);
     }
     findAll() {
-        return this.customersService.findAll();
+        return this.clientService.findAll();
     }
     findOne(id) {
-        return this.customersService.findOne(+id);
+        return this.clientService.findOne(+id);
     }
-    update(id, updateCustomerDto) {
-        return this.customersService.update(+id, updateCustomerDto);
+    update(id, updateClientDto) {
+        return this.clientService.update(+id, updateClientDto);
     }
     remove(id) {
-        return this.customersService.remove(+id);
+        return this.clientService.remove(+id);
     }
 };
-exports.CustomersController = CustomersController;
+exports.ClientController = ClientController;
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_customer_dto_1.CreateCustomerDto]),
+    __metadata("design:paramtypes", [create_client_dto_1.CreateClientDto]),
     __metadata("design:returntype", void 0)
-], CustomersController.prototype, "create", null);
+], ClientController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], CustomersController.prototype, "findAll", null);
+], ClientController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CustomersController.prototype, "findOne", null);
+], ClientController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_customer_dto_1.UpdateCustomerDto]),
+    __metadata("design:paramtypes", [String, update_client_dto_1.UpdateClientDto]),
     __metadata("design:returntype", void 0)
-], CustomersController.prototype, "update", null);
+], ClientController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], CustomersController.prototype, "remove", null);
-exports.CustomersController = CustomersController = __decorate([
-    (0, common_1.Controller)('customers'),
-    __metadata("design:paramtypes", [customers_service_1.CustomersService])
-], CustomersController);
-//# sourceMappingURL=customers.controller.js.map
+], ClientController.prototype, "remove", null);
+exports.ClientController = ClientController = __decorate([
+    (0, common_1.Controller)('client'),
+    __metadata("design:paramtypes", [client_service_1.ClientService])
+], ClientController);
+//# sourceMappingURL=client.controller.js.map

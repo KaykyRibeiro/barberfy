@@ -7,14 +7,27 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ClientService {
 
   constructor(private prismaService: PrismaService) {}
-  create(createClientDto: CreateClientDto) {
-    return this.prismaService.client.create({
-      data: {
-        name: createClientDto.name,
-        phone: createClientDto.phone,
-      }
-    });
+  async create(createClientDto: CreateClientDto) {
+  const { name, phone } = createClientDto;
+
+  const existingClient = await this.prismaService.client.findFirst({
+    where: { phone },
+  });
+
+  if (existingClient) {
+    if (existingClient.name !== name) {
+      return await this.prismaService.client.update({
+        where: { id: existingClient.id },
+        data: { name },
+      });
+    }
+    return existingClient;
   }
+
+  return await this.prismaService.client.create({
+    data: { name, phone },
+  });
+}
 
   findAll() {
     return this.prismaService.client.findMany();

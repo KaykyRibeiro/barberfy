@@ -1,15 +1,15 @@
-import { defineConfig } from '@prisma/config'
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 import * as dotenv from "dotenv";
 dotenv.config();
 
-type PrismaConfigWithSeed = Parameters<typeof defineConfig>[0] & {
-  seed?: {
-    run: string
+@Injectable()
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  async onModuleInit() {
+    await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
   }
 }
-
-export default defineConfig({
-  seed: {
-    run: 'ts-node prisma/seed.ts',
-  },
-} as PrismaConfigWithSeed)
