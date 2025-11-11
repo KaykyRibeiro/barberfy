@@ -27,9 +27,12 @@ export class BarbersService {
     });
   }
 
-  findAll() {
-    return this.prismaService.barber.findMany();
-  }
+  async findAllByBarbershop(barbershopId: number) {
+  return this.prismaService.barber.findMany({
+    where: { barbershopId },
+  });
+}
+
 
   findOne(id: number) {
     return this.prismaService.barber.findUnique({

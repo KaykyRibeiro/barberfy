@@ -6,9 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthGuard implements CanActivate {
 
   constructor(private jwtService: JwtService) {}
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
     const token = request.headers['authorization']?.split(' ')[1];
 
@@ -16,7 +14,8 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('No token provided');
     }
     try{
-      const payload = this.jwtService.verify(token, {algorithms: ['HS256']});
+      const payload = await this.jwtService.verify(token, {algorithms: ['HS256']});
+      request['user'] = payload;
       return true;
     } catch (error) {
       console.log(error);

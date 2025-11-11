@@ -12,7 +12,7 @@ export declare class BarbersController {
         profile: string | null;
         barbershopId: number;
     }>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
+    findAll(req: any): Promise<{
         id: number;
         name: string;
         phone: string;
@@ -20,7 +20,7 @@ export declare class BarbersController {
         profile: string | null;
         barbershopId: number;
     }[]>;
-    findOne(id: string): import("@prisma/client").Prisma.Prisma__BarberClient<{
+    findOne(req: any): import("@prisma/client").Prisma.Prisma__BarberClient<{
         id: number;
         name: string;
         phone: string;

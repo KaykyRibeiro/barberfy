@@ -49,7 +49,7 @@ let AuthService = class AuthService {
         if (!isPasswordValid) {
             throw new Error('Invalid credentials');
         }
-        const token = this.jwtService.sign({ name: barber.name, phone: barber.phone, id: barber.id });
+        const token = this.jwtService.sign({ name: barber.name, phone: barber.phone, id: barber.id, barbershopId: barber.barbershopId });
         return { access_token: token };
     }
 };

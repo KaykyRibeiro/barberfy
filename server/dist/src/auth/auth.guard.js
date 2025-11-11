@@ -17,14 +17,15 @@ let AuthGuard = class AuthGuard {
     constructor(jwtService) {
         this.jwtService = jwtService;
     }
-    canActivate(context) {
+    async canActivate(context) {
         const request = context.switchToHttp().getRequest();
         const token = request.headers['authorization']?.split(' ')[1];
         if (!token) {
             throw new common_1.UnauthorizedException('No token provided');
         }
         try {
-            const payload = this.jwtService.verify(token, { algorithms: ['HS256'] });
+            const payload = await this.jwtService.verify(token, { algorithms: ['HS256'] });
+            request['user'] = payload;
             return true;
         }
         catch (error) {

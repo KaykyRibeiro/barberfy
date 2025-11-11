@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const barbers_service_1 = require("./barbers.service");
 const create_barber_dto_1 = require("./dto/create-barber.dto");
 const update_barber_dto_1 = require("./dto/update-barber.dto");
+const auth_guard_1 = require("../auth/auth.guard");
 let BarbersController = class BarbersController {
     barbersService;
     constructor(barbersService) {
@@ -25,11 +26,12 @@ let BarbersController = class BarbersController {
     create(createBarberDto) {
         return this.barbersService.create(createBarberDto);
     }
-    findAll() {
-        return this.barbersService.findAll();
+    async findAll(req) {
+        const user = req.user;
+        return this.barbersService.findAllByBarbershop(user.id);
     }
-    findOne(id) {
-        return this.barbersService.findOne(+id);
+    findOne(req) {
+        return this.barbersService.findOne(req.user.id);
     }
     update(id, updateBarberDto) {
         return this.barbersService.update(+id, updateBarberDto);
@@ -48,15 +50,16 @@ __decorate([
 ], BarbersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], BarbersController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('me'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], BarbersController.prototype, "findOne", null);
 __decorate([
@@ -75,6 +78,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbersController.prototype, "remove", null);
 exports.BarbersController = BarbersController = __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('barbers'),
     __metadata("design:paramtypes", [barbers_service_1.BarbersService])
 ], BarbersController);

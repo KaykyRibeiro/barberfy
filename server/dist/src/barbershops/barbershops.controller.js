@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const barbershops_service_1 = require("./barbershops.service");
 const create_barbershop_dto_1 = require("./dto/create-barbershop.dto");
 const update_barbershop_dto_1 = require("./dto/update-barbershop.dto");
+const auth_guard_1 = require("../auth/auth.guard");
 let BarbershopsController = class BarbershopsController {
     barbershopsService;
     constructor(barbershopsService) {
@@ -28,8 +29,8 @@ let BarbershopsController = class BarbershopsController {
     findAll() {
         return this.barbershopsService.findAll();
     }
-    findOne(id) {
-        return this.barbershopsService.findOne(+id);
+    getMyData(req) {
+        return this.barbershopsService.findOne(req.user.id);
     }
     update(id, updateBarbershopDto) {
         return this.barbershopsService.update(+id, updateBarbershopDto);
@@ -53,12 +54,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('me'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
-], BarbershopsController.prototype, "findOne", null);
+], BarbershopsController.prototype, "getMyData", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
@@ -75,6 +76,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "remove", null);
 exports.BarbershopsController = BarbershopsController = __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('barbershops'),
     __metadata("design:paramtypes", [barbershops_service_1.BarbershopsService])
 ], BarbershopsController);

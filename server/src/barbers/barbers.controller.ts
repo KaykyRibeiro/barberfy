@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { BarbersService } from './barbers.service';
 import { CreateBarberDto } from './dto/create-barber.dto';
 import { UpdateBarberDto } from './dto/update-barber.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('barbers')
 export class BarbersController {
   constructor(private readonly barbersService: BarbersService) {}
@@ -13,13 +15,14 @@ export class BarbersController {
   }
 
   @Get()
-  findAll() {
-    return this.barbersService.findAll();
+  async findAll(@Req() req) {
+    const user = req.user;
+    return this.barbersService.findAllByBarbershop(user.id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.barbersService.findOne(+id);
+  @Get('me')
+  findOne(@Req() req) {
+    return this.barbersService.findOne(req.user.id);
   }
 
   @Patch(':id')

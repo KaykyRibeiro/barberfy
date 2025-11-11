@@ -26,7 +26,7 @@ export declare class BarbershopsController {
         facebook: string | null;
         password: string;
     }[]>;
-    findOne(id: string): import("@prisma/client").Prisma.Prisma__BarbershopClient<{
+    getMyData(req: any): import("@prisma/client").Prisma.Prisma__BarbershopClient<{
         id: number;
         email: string;
         name: string;

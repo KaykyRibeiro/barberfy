@@ -15,12 +15,13 @@ const barbers_module_1 = require("./barbers/barbers.module");
 const barbershops_module_1 = require("./barbershops/barbershops.module");
 const auth_module_1 = require("./auth/auth.module");
 const client_module_1 = require("./client/client.module");
+const barbershop_services_module_1 = require("./barbershop-services/barbershop-services.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, barbers_module_1.BarbersModule, barbershops_module_1.BarbershopsModule, auth_module_1.AuthModule, client_module_1.ClientModule],
+        imports: [prisma_module_1.PrismaModule, barbers_module_1.BarbersModule, barbershops_module_1.BarbershopsModule, auth_module_1.AuthModule, client_module_1.ClientModule, barbershop_services_module_1.BarbershopServicesModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

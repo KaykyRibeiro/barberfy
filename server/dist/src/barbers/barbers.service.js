@@ -40,8 +40,10 @@ let BarbersService = class BarbersService {
             }
         });
     }
-    findAll() {
-        return this.prismaService.barber.findMany();
+    async findAllByBarbershop(barbershopId) {
+        return this.prismaService.barber.findMany({
+            where: { barbershopId },
+        });
     }
     findOne(id) {
         return this.prismaService.barber.findUnique({

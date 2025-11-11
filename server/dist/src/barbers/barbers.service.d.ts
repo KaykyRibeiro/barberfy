@@ -12,7 +12,7 @@ export declare class BarbersService {
         profile: string | null;
         barbershopId: number;
     }>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
+    findAllByBarbershop(barbershopId: number): Promise<{
         id: number;
         name: string;
         phone: string;
