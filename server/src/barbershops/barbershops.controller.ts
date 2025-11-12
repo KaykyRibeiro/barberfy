@@ -4,7 +4,7 @@ import { CreateBarbershopDto } from './dto/create-barbershop.dto';
 import { UpdateBarbershopDto } from './dto/update-barbershop.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
-@UseGuards(AuthGuard)
+
 @Controller('barbershops')
 export class BarbershopsController {
   constructor(private readonly barbershopsService: BarbershopsService) {}
@@ -13,7 +13,8 @@ export class BarbershopsController {
   create(@Body() createBarbershopDto: CreateBarbershopDto) {
     return this.barbershopsService.create(createBarbershopDto);
   }
- 
+
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.barbershopsService.findAll();
@@ -23,17 +24,20 @@ export class BarbershopsController {
   findOne(@Param('id') id: string) {
     return this.barbershopsService.findOne(+id);
   }*/
-  
+
+  @UseGuards(AuthGuard)
   @Get('me')
   getMyData(@Req() req) {
     return this.barbershopsService.findOne(req.user.id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBarbershopDto: UpdateBarbershopDto) {
     return this.barbershopsService.update(+id, updateBarbershopDto);
   }
-
+  
+  @UseGuards(AuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.barbershopsService.remove(+id);

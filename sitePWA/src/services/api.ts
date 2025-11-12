@@ -1,13 +1,15 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000", // ou seu endpoint
+  baseURL: "http://localhost:3000", // substitua pelo endpoint real quando for deployar
 });
 
-// Exemplo de endpoint:
-export const getBarbers = async (token: string) => {
-  const response = await api.get("/barbers", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
-};
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});

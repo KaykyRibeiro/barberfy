@@ -48,12 +48,14 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "create", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "findAll", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('me'),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -61,6 +63,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "getMyData", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
@@ -69,6 +72,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "update", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -76,7 +80,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], BarbershopsController.prototype, "remove", null);
 exports.BarbershopsController = BarbershopsController = __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Controller)('barbershops'),
     __metadata("design:paramtypes", [barbershops_service_1.BarbershopsService])
 ], BarbershopsController);

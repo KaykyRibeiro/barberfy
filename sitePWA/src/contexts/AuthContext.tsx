@@ -1,20 +1,45 @@
 // src/contexts/AuthContext.tsx
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
-const AuthContext = createContext(null);
+interface AuthContextProps {
+  user: any;
+  login: (credentials: { email?: string; phone?: string; password: string }) => Promise<void>;
+  logout: () => void;
+}
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const AuthContext = createContext<AuthContextProps | null>(null);
 
-  const login = async (email, password) => {
-    const response = await fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    localStorage.setItem("token", data.token);
-    setUser(data.user);
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // Se já houver token salvo, tenta restaurar o usuário
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Você pode futuramente chamar /auth/me para validar o token e pegar o usuário
+      setUser({ token });
+    }
+  }, []);
+
+  const login = async ({ email, phone, password }: { email?: string; phone?: string; password: string }) => {
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, phone, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Credenciais inválidas");
+      }
+
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+    } catch (error) {
+      console.error("Erro no login:", error);
+      throw error;
+    }
   };
 
   const logout = () => {
@@ -29,5 +54,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Hook para usar o Auth em qualquer componente
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  }
+  return context;
+};
