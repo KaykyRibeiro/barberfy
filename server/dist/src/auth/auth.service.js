@@ -35,7 +35,7 @@ let AuthService = class AuthService {
         if (!isPasswordValid) {
             throw new Error('Invalid credentials');
         }
-        const token = this.jwtService.sign({ name: barbershop.name, email: barbershop.email, id: barbershop.id });
+        const token = this.jwtService.sign({ name: barbershop.name, email: barbershop.email, id: barbershop.id, role: 'barbershop' });
         return { access_token: token };
     }
     async loginBarber(loginBarberDto) {
@@ -49,7 +49,7 @@ let AuthService = class AuthService {
         if (!isPasswordValid) {
             throw new Error('Invalid credentials');
         }
-        const token = this.jwtService.sign({ name: barber.name, phone: barber.phone, id: barber.id, barbershopId: barber.barbershopId });
+        const token = this.jwtService.sign({ name: barber.name, phone: barber.phone, id: barber.id, barbershopId: barber.barbershopId, role: 'barber' });
         return { access_token: token };
     }
 };

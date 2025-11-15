@@ -19,6 +19,24 @@ export default defineConfig({
       short_name: 'Barberfy',
       description: 'Sistema de agendagamento digital para barbeiros',
       theme_color: '#1C1C1C',
+      icons: [
+        {
+          src: '/barberfy-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/barberfy-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: '/favicon.ico',
+          sizes: 'any',
+          type: 'image/png',
+          purpose: 'any maskable',
+        }
+      ],
     },
 
     workbox: {
