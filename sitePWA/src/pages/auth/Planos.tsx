@@ -19,16 +19,16 @@ export default function Planos() {
             <thead>
               <tr className="bg-charcoal-black/40">
                 <th className="px-8 py-6 text-lg font-semibold"></th>
-                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center  text-leather-brown border-l border-gray-600">
+                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center  text-soft-golden/90 border-l border-gray-600">
                   Básico <span className="text-xl font-Kanit font-semibold ">R$ 49,90</span> 
                 </th>
-                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center text-leather-brown border-l border-gray-600">
+                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center text-soft-golden/90 border-l border-gray-600">
                   Padrão <span className="text-xl font-Kanit font-semibold ">R$ 79,90</span> 
                 </th>
-                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center  text-soft-golden border-l border-gray-600">
+                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center  text-soft-golden text-shadow-lg/10 text-shadow-ice-white border-l border-gray-600">
                   Premium <span className="text-xl font-Kanit font-semibold ">R$ 99,90</span> 
                 </th>
-                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center  text-leather-brown border-l border-gray-600">
+                <th className="px-8 py-6 text-2xl font-bold font-Kanit text-center  text-soft-golden/90 border-l border-gray-600">
                   Empresarial <span className="text-xl font-Kanit font-semibold ">R$ 199,90</span> 
                 </th>
               </tr>

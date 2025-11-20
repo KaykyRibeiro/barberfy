@@ -23,7 +23,9 @@ let BarbershopsService = class BarbershopsService {
     }
     async create(createBarbershopDto) {
         const barbershopAlreadyExists = await this.prismaService.barbershop.findUnique({
-            where: { email: createBarbershopDto.email },
+            where: {
+                email: createBarbershopDto.email
+            },
         });
         if (barbershopAlreadyExists) {
             throw new common_1.UnauthorizedException('Barbershop already exists');

@@ -10,7 +10,9 @@ export class BarbershopsService {
   constructor(private prismaService: PrismaService) {}
   async create(createBarbershopDto: CreateBarbershopDto) {
     const barbershopAlreadyExists = await this.prismaService.barbershop.findUnique({
-      where: { email: createBarbershopDto.email },
+      where: {  
+        email: createBarbershopDto.email
+       },
     });
 
     if (barbershopAlreadyExists) {

@@ -41,6 +41,7 @@ let BarbershopsController = class BarbershopsController {
 };
 exports.BarbershopsController = BarbershopsController;
 __decorate([
+    (0, common_1.UsePipes)(common_1.ValidationPipe),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

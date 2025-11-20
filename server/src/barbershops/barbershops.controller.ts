@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, UsePipes, ValidationPipe } from '@nestjs/common';
 import { BarbershopsService } from './barbershops.service';
 import { CreateBarbershopDto } from './dto/create-barbershop.dto';
 import { UpdateBarbershopDto } from './dto/update-barbershop.dto';
@@ -9,6 +9,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class BarbershopsController {
   constructor(private readonly barbershopsService: BarbershopsService) {}
 
+  @UsePipes(ValidationPipe)
   @Post()
   create(@Body() createBarbershopDto: CreateBarbershopDto) {
     return this.barbershopsService.create(createBarbershopDto);
