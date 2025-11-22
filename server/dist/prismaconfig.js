@@ -56,4 +56,4 @@ exports.PrismaService = PrismaService;
 exports.PrismaService = PrismaService = __decorate([
     (0, common_1.Injectable)()
 ], PrismaService);
-//# sourceMappingURL=prisma.config.js.map
+//# sourceMappingURL=prismaconfig.js.map

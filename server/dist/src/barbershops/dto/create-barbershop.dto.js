@@ -15,7 +15,6 @@ class CreateBarbershopDto {
     name;
     email;
     phone;
-    logo;
     address;
     instagram;
     facebook;
@@ -37,10 +36,6 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateBarbershopDto.prototype, "phone", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateBarbershopDto.prototype, "logo", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),

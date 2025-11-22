@@ -23,6 +23,7 @@ export class BarbershopsService {
       data: {
         ...createBarbershopDto,
         password: bcrypt.hashSync(createBarbershopDto.password, 10),
+        
       }
     });
   }

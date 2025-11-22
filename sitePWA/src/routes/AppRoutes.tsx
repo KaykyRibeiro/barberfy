@@ -5,10 +5,10 @@ import PWABadge from "../PWABadge";
 
 const Login = lazy(() => import("../pages/auth/Login"));
 const CadastroBS = lazy(() => import("../pages/auth/CadastroBS"));
-const Verificacao = lazy(() => import("../pages/auth/Verificacao"));
 const Termos = lazy(() => import("../pages/Termos"));
 const Landingpage = lazy(() => import("../pages/Landingpage"));
 const Planos = lazy(() => import("../pages/auth/Planos"));
+const FluxoCadBS = lazy(() => import("../pages/auth/FluxoCadBS"));
 
 function Loader() {
     return (
@@ -26,7 +26,7 @@ export default function AppRoutes() {
                     <Route path="/" element={<Landingpage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/cadastrobs" element={<CadastroBS />} />
-                    <Route path="/verificacao" element={<Verificacao />} />
+                    <Route path="/fluxocadbs" element={<FluxoCadBS />} />
                     <Route path="/termos" element={<Termos />} />
                     <Route path="/planos" element={<Planos />} />
                     <Route path="*" element={<h1>404</h1>} />

@@ -13,9 +13,6 @@ export class CreateBarbershopDto {
     phone: string;
 
     @IsString()
-    logo?: string;
-
-    @IsString()
     @IsNotEmpty()
     address: string;
 

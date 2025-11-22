@@ -4,54 +4,54 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
+import { uploadBarbershopLogo } from "../../services/uploadService";
 
 const CreateUserSchema = z.object({
   name: z.string().nonempty("O nome é obrigatório").min(3, "O nome deve ter no mínimo 3 caracteres"),
   email: z.string().nonempty("O email é obrigatório").email("Formato de email inválido"),
   phone: z.string().nonempty("O telefone é obrigatório").min(11, "O telefone deve ter no mínimo 11 caracteres"),
-  address: z.string().nonempty("O endereço é obrigatório").min(1, "O endereço é obrigatório"),
+  address: z.string().nonempty("O endereço é obrigatório"),
   instagram: z.string().optional(),
   facebook: z.string().optional(),
-  logo: z.string().optional(),
-  password: z.string().nonempty("A senha é obrigatória").min(6, "A senha deve ter no mínimo 6 caracteres"),
-  confirmPassword: z.string().nonempty("A senha é obrigatória").min(6, "A senha deve ter no mínimo 6 caracteres")
+  logo: z
+    .custom<FileList>((v) => v instanceof FileList, "Arquivo inválido")
+    .transform((list) => list?.item(0) || null).refine((file) => file!.size <= 5 * 1024 * 1024, "Tamanho do arquivo excedido (5MB)  "),
+  password: z.string().nonempty("A senha é obrigatória").min(6),
+  confirmPassword: z.string().nonempty("A senha é obrigatória").min(6)
 }).refine((data) => data.password === data.confirmPassword, {
   path: ["confirmPassword"],
   message: "As senhas devem ser iguais"
 });
 
+
 type CreateUserFormData = z.infer<typeof CreateUserSchema>;
 
 export default function CadastroBS() {
   const navigate = useNavigate();
-  const [isFinilized, setIsFinilized] = useState(false);
   const { register, handleSubmit, formState: { errors } } =
-    useForm<CreateUserFormData>({ resolver: zodResolver(CreateUserSchema) });
+    useForm<CreateUserFormData>({ resolver: zodResolver(CreateUserSchema) as any });
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   async function handleRegister(data: CreateUserFormData) {
     try {
       setLoading(true);
-      setError("");
-      setIsFinilized(true);
-
-
-      // Remove o confirmPassword
-      const { confirmPassword, ...payload } = data;
-
+      const { logo, confirmPassword, ...payload } = data;
+      // 1. Cria barbearia
       const response = await registerBarbershop(payload);
-
-      console.log("Barbearia cadastrada:", response);
-
+      const barbershopId = response.id; // backend precisa te devolver isso
+      // 2. Se tiver logo, faz upload
+      if (logo) {
+        await uploadBarbershopLogo(barbershopId, logo);
+      }
+      // 3. Redireciona para login
+      navigate("/login");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Erro ao cadastrar barbearia");
+      console.error("Erro ao cadastrar barbearia:", err.response?.data || err.message);
     } finally {
       setLoading(false);
     }
   }
-
 
   return (
     <div className="p-6 max-w-md mx-auto">
@@ -81,22 +81,14 @@ export default function CadastroBS() {
         <input placeholder="Facebook" {...register("facebook")} />
         {errors.facebook && <p style={{ color: "red" }}>{errors.facebook.message}</p>}
 
-        <input placeholder="Logo" {...register("logo")} />
+        <input type="file" placeholder="Logo" {...register("logo")} accept="image/*" />
         {errors.logo && <p style={{ color: "red" }}>{errors.logo.message}</p>}
 
         <button type="submit" disabled={loading}>
           {loading ? "Cadastrando..." : "Cadastrar"}
         </button>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {isFinilized &&
-          <div>
-            <h1>Cadastro realizado com sucesso</h1>
-            <p>Vá para a tela de login e conecte-se</p>
-            <button onClick={() => navigate("/login")}>Conectar-se</button>
-          </div>
-        }
       </form>
     </div>
   );
 }
+
