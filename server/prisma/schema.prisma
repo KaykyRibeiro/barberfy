@@ -27,7 +27,7 @@ model Barbershop {
   PushToken          PushToken[]
   BarbershopSettings BarbershopSettings[]
   Signature          Signature[]
-
+  Step               Step[]
 
   @@map("barbershop")
 }
@@ -198,4 +198,15 @@ model Payments {
 
   // Relação não-nullable, pois toda transação deve pertencer a uma assinatura
   signature        Signature @relation(fields: [assinaturaId], references: [id], onDelete: Cascade)
+}
+
+model Step {
+  id          Int      @id @default(autoincrement())
+  services_done Boolean @default(false)
+  schedule_done Boolean @default(false)
+  barbers_done Boolean @default(false)
+  finished     Boolean @default(false)
+
+  barbershopId Int
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id], onDelete: Cascade)
 }

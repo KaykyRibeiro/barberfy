@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { registerBarbershop } from "../../services/barbershopService";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { uploadBarbershopLogo } from "../../services/uploadService";
+import CropModal from "../../components/crop/CropModal";
 
 const CreateUserSchema = z.object({
   name: z.string().nonempty("O nome é obrigatório").min(3, "O nome deve ter no mínimo 3 caracteres"),
@@ -15,7 +16,7 @@ const CreateUserSchema = z.object({
   facebook: z.string().optional(),
   logo: z
     .custom<FileList>((v) => v instanceof FileList, "Arquivo inválido")
-    .transform((list) => list?.item(0) || null).refine((file) => file!.size <= 5 * 1024 * 1024, "Tamanho do arquivo excedido (5MB)  "),
+    .transform((list) => list?.item(0) || null).refine((file) => file!.size <= 5 * 1024 * 1024, "Tamanho do arquivo excedido (5MB)"),
   password: z.string().nonempty("A senha é obrigatória").min(6),
   confirmPassword: z.string().nonempty("A senha é obrigatória").min(6)
 }).refine((data) => data.password === data.confirmPassword, {
@@ -28,19 +29,30 @@ type CreateUserFormData = z.infer<typeof CreateUserSchema>;
 
 export default function CadastroBS() {
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } =
+
+
+  const { register, handleSubmit, setValue, formState: { errors } } =
     useForm<CreateUserFormData>({ resolver: zodResolver(CreateUserSchema) as any });
 
   const [loading, setLoading] = useState(false);
+
+  const [preview, setPreview] = useState<string | null>(null);
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [tempImage, setTempImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+      if (tempImage) URL.revokeObjectURL(tempImage);
+    };
+  }, [preview, tempImage]);
 
   async function handleRegister(data: CreateUserFormData) {
     try {
       setLoading(true);
       const { logo, confirmPassword, ...payload } = data;
-      // 1. Cria barbearia
       const response = await registerBarbershop(payload);
-      const barbershopId = response.id; // backend precisa te devolver isso
-      // 2. Se tiver logo, faz upload
+      const barbershopId = response.id;
       if (logo) {
         await uploadBarbershopLogo(barbershopId, logo);
       }
@@ -81,13 +93,60 @@ export default function CadastroBS() {
         <input placeholder="Facebook" {...register("facebook")} />
         {errors.facebook && <p style={{ color: "red" }}>{errors.facebook.message}</p>}
 
-        <input type="file" placeholder="Logo" {...register("logo")} accept="image/*" />
+        <div>
+          <label>Logo da Barbearia (JPG ou PNG):</label>
+          {preview && (
+            <div className="flex flex-col gap-3 my-2">
+              <div className="flex flex-row items-end gap-5">
+                <img
+                  src={preview}
+                  alt="Pré-visualização"
+                  className="w-62 h-32 object-cover rounded-none border"
+                />
+                <img
+                  src={preview}
+                  alt="Pré-visualização"
+                  className="w-22 h-22 object-cover rounded-none border"
+                />
+                <img
+                  src={preview}
+                  alt="Pré-visualização"
+                  className="w-22 h-22 object-cover rounded-full border"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+        <input
+          type="file"
+          placeholder="Logo"
+          {...register("logo")}
+          accept="image/*"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              const url = URL.createObjectURL(file);
+              setTempImage(url);
+              setCropModalOpen(true);
+            }
+          }}
+        />
         {errors.logo && <p style={{ color: "red" }}>{errors.logo.message}</p>}
-
         <button type="submit" disabled={loading}>
           {loading ? "Cadastrando..." : "Cadastrar"}
         </button>
       </form>
+
+      {cropModalOpen && tempImage && (
+        <CropModal
+          image={tempImage}
+          onClose={() => setCropModalOpen(false)}
+          onCropComplete={(file) => {
+            setValue("logo", file as any); // react-hook-form aceita
+            setPreview(URL.createObjectURL(file)); // preview cortado
+          }}
+        />
+      )}
     </div>
   );
 }
