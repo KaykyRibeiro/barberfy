@@ -15,7 +15,6 @@ const barbers_module_1 = require("./barbers/barbers.module");
 const barbershops_module_1 = require("./barbershops/barbershops.module");
 const auth_module_1 = require("./auth/auth.module");
 const client_module_1 = require("./client/client.module");
-const barbershop_services_module_1 = require("./barbershop-services/barbershop-services.module");
 const upload_module_1 = require("./modules/upload/upload.module");
 const steps_module_1 = require("./modules/steps/steps.module");
 let AppModule = class AppModule {
@@ -23,7 +22,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, barbers_module_1.BarbersModule, barbershops_module_1.BarbershopsModule, auth_module_1.AuthModule, client_module_1.ClientModule, barbershop_services_module_1.BarbershopServicesModule, upload_module_1.UploadModule, steps_module_1.StepsModule],
+        imports: [prisma_module_1.PrismaModule, barbers_module_1.BarbersModule, barbershops_module_1.BarbershopsModule, auth_module_1.AuthModule, client_module_1.ClientModule, upload_module_1.UploadModule, steps_module_1.StepsModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

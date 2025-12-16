@@ -11,8 +11,8 @@ const common_1 = require("@nestjs/common");
 const supabase_js_1 = require("@supabase/supabase-js");
 let UploadService = class UploadService {
     supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, { auth: { persistSession: false } });
-    async upload(category, id, file) {
-        const filePath = `${category}/${id}/${Date.now()}-${file.originalname}`;
+    async upload(category, file) {
+        const filePath = `${category}/${Date.now()}-${file.originalname}`;
         const { data, error } = await this.supabase
             .storage
             .from('barbershops')

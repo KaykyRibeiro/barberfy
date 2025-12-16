@@ -52,9 +52,8 @@ export default function CadastroBS() {
       setLoading(true);
       const { logo, confirmPassword, ...payload } = data;
       const response = await registerBarbershop(payload);
-      const barbershopId = response.id;
       if (logo) {
-        await uploadBarbershopLogo(barbershopId, logo);
+        await uploadBarbershopLogo(logo);
       }
       // 3. Redireciona para login
       navigate("/login");

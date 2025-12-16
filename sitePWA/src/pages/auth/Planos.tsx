@@ -187,7 +187,7 @@ export default function Planos() {
                 <td className="px-8 py-5 border-l border-gray-700 ">
                   <button 
                     className=" bg-soft-golden text-charcoal-black font-Kanit font-bold px-10 py-4 rounded-lg hover:scale-105 transition"
-                    onClick={() => navigate("/cadastroBS?plan=basico")}
+                    onClick={() => navigate("/cadastro?plan=basico")}
                   >
                     Escolher plano
                   </button>

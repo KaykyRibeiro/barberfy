@@ -8,41 +8,49 @@ import brcypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
-    constructor(private jwtService: JwtService, private prismaService: PrismaService) {}
+    constructor(private jwtService: JwtService, private prismaService: PrismaService) { }
 
+    signToken(payload: Record<string, any>) {
+        const token = this.jwtService.sign(payload, { expiresIn: '2h' }); // expire curto / ajuste
+        return token;
+    }
     async loginBarbershop(loginBarbershopDto: loginBarbershopDto) {
         const barbershop = await this.prismaService.barbershop.findUnique({
             where: { email: loginBarbershopDto.email }
         });
-        if(!barbershop) {
+        if (!barbershop) {
             throw new Error('Invalid credentials');
         }
         const isPasswordValid = brcypt.compareSync(
-            loginBarbershopDto.password, 
+            loginBarbershopDto.password,
             barbershop.password
         );
-        if(!isPasswordValid) {
+        if (!isPasswordValid) {
             throw new Error('Invalid credentials');
-        }   
-        const token = this.jwtService.sign({ name: barbershop.name, email: barbershop.email, id: barbershop.id, role: 'barbershop' });
-        return{access_token: token};
+        }
+        const token = this.jwtService.sign({ 
+            id: barbershop.id,
+            name: barbershop.name, 
+            email: barbershop.email, 
+            role: 'barbershop' });
+        return { access_token: token };
     }
 
     async loginBarber(loginBarberDto: loginBarberDto) {
         const barber = await this.prismaService.barber.findUnique({
             where: { phone: loginBarberDto.phone }
         });
-        if(!barber) {
+        if (!barber) {
             throw new Error('Invalid credentials');
         }
         const isPasswordValid = brcypt.compareSync(
-            loginBarberDto.password, 
+            loginBarberDto.password,
             barber.password
         );
-        if(!isPasswordValid) {
+        if (!isPasswordValid) {
             throw new Error('Invalid credentials');
-        }   
+        }
         const token = this.jwtService.sign({ name: barber.name, phone: barber.phone, id: barber.id, barbershopId: barber.barbershopId, role: 'barber' });
-        return{access_token: token};
+        return { access_token: token };
     }
 }

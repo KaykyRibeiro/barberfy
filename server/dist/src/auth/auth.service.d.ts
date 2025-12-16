@@ -6,6 +6,7 @@ export declare class AuthService {
     private jwtService;
     private prismaService;
     constructor(jwtService: JwtService, prismaService: PrismaService);
+    signToken(payload: Record<string, any>): string;
     loginBarbershop(loginBarbershopDto: loginBarbershopDto): Promise<{
         access_token: string;
     }>;

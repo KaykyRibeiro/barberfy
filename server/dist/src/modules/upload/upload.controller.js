@@ -26,11 +26,11 @@ let UploadController = class UploadController {
     }
     async uploadGeneric(category, id, file) {
         const allowed = ['barbershops', 'barbers', 'services'];
+        const numericId = parseInt(id);
         if (!allowed.includes(category)) {
             throw new common_1.BadRequestException('Categoria inválida.');
         }
-        const result = await this.uploadService.upload(category, id, file);
-        const numericId = Number(id);
+        const result = await this.uploadService.upload(category, file);
         if (category === 'barbershops') {
             await this.prismaService.barbershop.update({
                 where: { id: numericId },

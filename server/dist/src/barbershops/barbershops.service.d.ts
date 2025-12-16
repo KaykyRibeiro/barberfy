@@ -1,9 +1,11 @@
 import { CreateBarbershopDto } from './dto/create-barbershop.dto';
 import { UpdateBarbershopDto } from './dto/update-barbershop.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { AuthService } from 'src/auth/auth.service';
 export declare class BarbershopsService {
     private prismaService;
-    constructor(prismaService: PrismaService);
+    private authService;
+    constructor(prismaService: PrismaService, authService: AuthService);
     create(createBarbershopDto: CreateBarbershopDto): Promise<{
         id: number;
         email: string;

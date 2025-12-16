@@ -16,10 +16,13 @@ exports.BarbershopsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const auth_service_1 = require("../auth/auth.service");
 let BarbershopsService = class BarbershopsService {
     prismaService;
-    constructor(prismaService) {
+    authService;
+    constructor(prismaService, authService) {
         this.prismaService = prismaService;
+        this.authService = authService;
     }
     async create(createBarbershopDto) {
         const barbershopAlreadyExists = await this.prismaService.barbershop.findUnique({
@@ -30,12 +33,13 @@ let BarbershopsService = class BarbershopsService {
         if (barbershopAlreadyExists) {
             throw new common_1.UnauthorizedException('Barbershop already exists');
         }
-        return this.prismaService.barbershop.create({
+        const barbershop = await this.prismaService.barbershop.create({
             data: {
                 ...createBarbershopDto,
                 password: bcrypt_1.default.hashSync(createBarbershopDto.password, 10),
             }
         });
+        return barbershop;
     }
     findAll() {
         return this.prismaService.barbershop.findMany();
@@ -70,6 +74,7 @@ let BarbershopsService = class BarbershopsService {
 exports.BarbershopsService = BarbershopsService;
 exports.BarbershopsService = BarbershopsService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        auth_service_1.AuthService])
 ], BarbershopsService);
 //# sourceMappingURL=barbershops.service.js.map

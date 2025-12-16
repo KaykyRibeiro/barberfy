@@ -9,12 +9,12 @@ export class UploadService {
     { auth: { persistSession: false } }
   );
 
-  async upload(category: string, id: string | number, file: Express.Multer.File) {
-    const filePath = `${category}/${id}/${Date.now()}-${file.originalname}`;
+  async upload(category: string, file: Express.Multer.File) {
+    const filePath = `${category}/${Date.now()}-${file.originalname}`;
 
     const { data, error } = await this.supabase
       .storage
-      .from('barbershops') // nome do bucket
+      .from('barbershops')
       .upload(filePath, file.buffer, { upsert: true });
 
     if (error) throw error;

@@ -18,13 +18,24 @@ const barbershops_service_1 = require("./barbershops.service");
 const create_barbershop_dto_1 = require("./dto/create-barbershop.dto");
 const update_barbershop_dto_1 = require("./dto/update-barbershop.dto");
 const auth_guard_1 = require("../auth/auth.guard");
+const auth_service_1 = require("../auth/auth.service");
 let BarbershopsController = class BarbershopsController {
     barbershopsService;
-    constructor(barbershopsService) {
+    authService;
+    constructor(barbershopsService, authService) {
         this.barbershopsService = barbershopsService;
+        this.authService = authService;
     }
-    create(createBarbershopDto) {
-        return this.barbershopsService.create(createBarbershopDto);
+    async create(createBarbershopDto) {
+        const barbershop = await this.barbershopsService.create(createBarbershopDto);
+        const tokenPayload = {
+            id: barbershop.id,
+            name: barbershop.name,
+            email: barbershop.email,
+            role: 'barbershop',
+        };
+        const accessToken = this.authService.signToken(tokenPayload);
+        return { barbershop, accessToken };
     }
     findAll() {
         return this.barbershopsService.findAll();
@@ -46,7 +57,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_barbershop_dto_1.CreateBarbershopDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], BarbershopsController.prototype, "create", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
@@ -82,6 +93,7 @@ __decorate([
 ], BarbershopsController.prototype, "remove", null);
 exports.BarbershopsController = BarbershopsController = __decorate([
     (0, common_1.Controller)('barbershops'),
-    __metadata("design:paramtypes", [barbershops_service_1.BarbershopsService])
+    __metadata("design:paramtypes", [barbershops_service_1.BarbershopsService,
+        auth_service_1.AuthService])
 ], BarbershopsController);
 //# sourceMappingURL=barbershops.controller.js.map

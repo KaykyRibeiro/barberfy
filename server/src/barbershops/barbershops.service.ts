@@ -3,11 +3,15 @@ import { CreateBarbershopDto } from './dto/create-barbershop.dto';
 import { UpdateBarbershopDto } from './dto/update-barbershop.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import bcrypt from 'bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class BarbershopsService {
 
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private authService: AuthService,
+  ) {}
   async create(createBarbershopDto: CreateBarbershopDto) {
     const barbershopAlreadyExists = await this.prismaService.barbershop.findUnique({
       where: {  
@@ -19,13 +23,15 @@ export class BarbershopsService {
       throw new UnauthorizedException('Barbershop already exists');
     }
 
-    return this.prismaService.barbershop.create({
+    const barbershop = await this.prismaService.barbershop.create({
       data: {
         ...createBarbershopDto,
         password: bcrypt.hashSync(createBarbershopDto.password, 10),
         
       }
     });
+
+    return barbershop;
   }
 
   findAll() {

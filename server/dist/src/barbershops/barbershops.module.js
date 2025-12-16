@@ -10,11 +10,15 @@ exports.BarbershopsModule = void 0;
 const common_1 = require("@nestjs/common");
 const barbershops_service_1 = require("./barbershops.service");
 const barbershops_controller_1 = require("./barbershops.controller");
+const auth_module_1 = require("../auth/auth.module");
 let BarbershopsModule = class BarbershopsModule {
 };
 exports.BarbershopsModule = BarbershopsModule;
 exports.BarbershopsModule = BarbershopsModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            auth_module_1.AuthModule,
+        ],
         controllers: [barbershops_controller_1.BarbershopsController],
         providers: [barbershops_service_1.BarbershopsService],
     })

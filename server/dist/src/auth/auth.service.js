@@ -24,6 +24,10 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
         this.prismaService = prismaService;
     }
+    signToken(payload) {
+        const token = this.jwtService.sign(payload, { expiresIn: '2h' });
+        return token;
+    }
     async loginBarbershop(loginBarbershopDto) {
         const barbershop = await this.prismaService.barbershop.findUnique({
             where: { email: loginBarbershopDto.email }
@@ -35,7 +39,12 @@ let AuthService = class AuthService {
         if (!isPasswordValid) {
             throw new Error('Invalid credentials');
         }
-        const token = this.jwtService.sign({ name: barbershop.name, email: barbershop.email, id: barbershop.id, role: 'barbershop' });
+        const token = this.jwtService.sign({
+            id: barbershop.id,
+            name: barbershop.name,
+            email: barbershop.email,
+            role: 'barbershop'
+        });
         return { access_token: token };
     }
     async loginBarber(loginBarberDto) {

@@ -19,12 +19,19 @@ let AuthGuard = class AuthGuard {
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();
-        const token = request.headers['authorization']?.split(' ')[1];
+        const authHeader = request.headers['authorization'];
+        if (!authHeader?.startsWith('Bearer ')) {
+            throw new common_1.UnauthorizedException('Invalid authorization header');
+        }
+        const token = authHeader.slice(7);
         if (!token) {
             throw new common_1.UnauthorizedException('No token provided');
         }
         try {
-            const payload = await this.jwtService.verify(token, { algorithms: ['HS256'] });
+            const payload = await this.jwtService.verifyAsync(token, {
+                secret: process.env.JWT_SECRET,
+                algorithms: ['HS256'],
+            });
             request['user'] = payload;
             return true;
         }
@@ -32,7 +39,6 @@ let AuthGuard = class AuthGuard {
             console.log(error);
             throw new common_1.UnauthorizedException('Invalid token', { cause: error });
         }
-        return true;
     }
 };
 exports.AuthGuard = AuthGuard;

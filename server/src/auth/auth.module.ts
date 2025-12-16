@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
     signOptions: { expiresIn: '7d', algorithm: 'HS256' },
   })],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService],
+  exports: [AuthService],
 })
 export class AuthModule {}
