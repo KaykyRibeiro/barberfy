@@ -4,7 +4,7 @@ export declare class UploadController {
     private readonly uploadService;
     private readonly prismaService;
     constructor(uploadService: UploadService, prismaService: PrismaService);
-    uploadGeneric(category: string, id: string, file: Express.Multer.File): Promise<{
+    uploadBarbershopLogo(req: any, file: Express.Multer.File): Promise<{
         path: string;
         url: string;
     }>;

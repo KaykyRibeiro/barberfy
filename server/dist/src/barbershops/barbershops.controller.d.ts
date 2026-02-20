@@ -8,60 +8,60 @@ export declare class BarbershopsController {
     constructor(barbershopsService: BarbershopsService, authService: AuthService);
     create(createBarbershopDto: CreateBarbershopDto): Promise<{
         barbershop: {
-            name: string;
+            id: number;
             email: string;
+            name: string;
             phone: string;
             logo: string | null;
             address: string;
             instagram: string | null;
             facebook: string | null;
             password: string;
-            id: number;
         };
         accessToken: string;
     }>;
     findAll(): import("@prisma/client").Prisma.PrismaPromise<{
-        name: string;
+        id: number;
         email: string;
+        name: string;
         phone: string;
         logo: string | null;
         address: string;
         instagram: string | null;
         facebook: string | null;
         password: string;
-        id: number;
     }[]>;
     getMyData(req: any): import("@prisma/client").Prisma.Prisma__BarbershopClient<{
-        name: string;
+        id: number;
         email: string;
+        name: string;
         phone: string;
         logo: string | null;
         address: string;
         instagram: string | null;
         facebook: string | null;
         password: string;
-        id: number;
     } | null, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     update(id: string, updateBarbershopDto: UpdateBarbershopDto): import("@prisma/client").Prisma.Prisma__BarbershopClient<{
-        name: string;
+        id: number;
         email: string;
+        name: string;
         phone: string;
         logo: string | null;
         address: string;
         instagram: string | null;
         facebook: string | null;
         password: string;
-        id: number;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     remove(id: string): import("@prisma/client").Prisma.Prisma__BarbershopClient<{
-        name: string;
+        id: number;
         email: string;
+        name: string;
         phone: string;
         logo: string | null;
         address: string;
         instagram: string | null;
         facebook: string | null;
         password: string;
-        id: number;
     }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
 }

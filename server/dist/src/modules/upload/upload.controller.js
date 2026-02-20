@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const upload_service_1 = require("./upload.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const prisma_service_1 = require("../../prisma/prisma.service");
+const auth_guard_1 = require("../../auth/auth.guard");
 let UploadController = class UploadController {
     uploadService;
     prismaService;
@@ -24,47 +25,30 @@ let UploadController = class UploadController {
         this.uploadService = uploadService;
         this.prismaService = prismaService;
     }
-    async uploadGeneric(category, id, file) {
-        const allowed = ['barbershops', 'barbers', 'services'];
-        const numericId = parseInt(id);
-        if (!allowed.includes(category)) {
-            throw new common_1.BadRequestException('Categoria inválida.');
-        }
-        const result = await this.uploadService.upload(category, file);
-        if (category === 'barbershops') {
-            await this.prismaService.barbershop.update({
-                where: { id: numericId },
-                data: { logo: result.url },
-            });
-        }
-        if (category === 'barbers') {
-            await this.prismaService.barber.update({
-                where: { id: numericId },
-                data: { profile: result.url },
-            });
-        }
-        if (category === 'services') {
-            await this.prismaService.service.update({
-                where: { id: numericId },
-                data: { photo: result.url },
-            });
-        }
+    async uploadBarbershopLogo(req, file) {
+        const barbershopId = req.user.id;
+        const result = await this.uploadService.upload(`barbershops/${barbershopId}`, file);
+        await this.prismaService.barbershop.update({
+            where: { id: barbershopId },
+            data: { logo: result.url },
+        });
         return result;
     }
 };
 exports.UploadController = UploadController;
 __decorate([
-    (0, common_1.Post)(':category/:id'),
+    (0, common_1.Post)('barbershops/logo'),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
-    __param(0, (0, common_1.Param)('category')),
-    __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, common_1.UploadedFile)()),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], UploadController.prototype, "uploadGeneric", null);
+], UploadController.prototype, "uploadBarbershopLogo", null);
 exports.UploadController = UploadController = __decorate([
     (0, common_1.Controller)('upload'),
-    __metadata("design:paramtypes", [upload_service_1.UploadService, prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [upload_service_1.UploadService,
+        prisma_service_1.PrismaService])
 ], UploadController);
 //# sourceMappingURL=upload.controller.js.map

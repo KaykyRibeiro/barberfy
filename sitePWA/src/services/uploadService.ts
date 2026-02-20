@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-export async function uploadBarbershopLogo(file: File) {
+export async function uploadBarbershopLogo(barbershopId: number, file: File) {
   const formData = new FormData();
   formData.append("file", file);
 
